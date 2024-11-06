@@ -1,6 +1,6 @@
 ### Project Configuration
 
-As this is an academic project to test and learn how to program with several tools, and applying good practices and clean principles. There are some issues that does not corresponds to the commonly practices spread in web software development.
+This project serves as an academic exercise to explore and experiment with various tools, applying best practices and clean principles in software development. While some challenges may arise that don't necessarily align with widely adopted practices in web development, the focus is on learning, testing, and understanding how different technologies and methodologies work together in real-world applications.
 - **.env Files**: The `.env` files in the `build` directory are not added to the `.gitignore` file. They are used to provide sample configuration.
 
 - **API Authentication**: There is a script to generate a token for API usage, which requires Bearer token authentication.
