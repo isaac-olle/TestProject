@@ -21,6 +21,9 @@ This project serves as an academic exercise to explore and experiment with vario
 
 - **Jenkins, CI/CD, and Kubernetes**:  
   Currently working on integrating Jenkins for continuous integration and deployment (CI/CD) and setting up Kubernetes for container orchestration.
+    
+    - **Testing**:
+    Work in testing. Narrowly related with Jenkins and K8s.
 
 - **Request Authentication Management**:  
   Developing a factory to handle different authentication methods, including Basic Authentication and Bearer Token.
@@ -31,5 +34,4 @@ This project serves as an academic exercise to explore and experiment with vario
 - **Secrets Management**:  
   Implementing a solution to securely store credentials, transitioning from current storage in `.json` files to tools like Vault or AWS Secrets Manager.
 
-  - **Testing**:
-    Work in testing. Narrowly related with Jenkins and K8s.
+
