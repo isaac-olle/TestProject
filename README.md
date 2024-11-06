@@ -1,9 +1,7 @@
 ### Project Configuration
 
 This project serves as an academic exercise to explore and experiment with various tools, applying best practices and clean principles in software development. While some challenges may arise that don't necessarily align with widely adopted practices in web development, the focus is on learning, testing, and understanding how different technologies and methodologies work together in real-world applications.
-- **.env Files**: The `.env` files in the `build` directory are not added to the `.gitignore` file. They are used to provide sample configuration.
-
-- **API Authentication**: There is a script to generate a token for API usage, which requires Bearer token authentication.
+- **.env Files**: The `.env` files in the `build` directory are not added to the `.gitignore` file. They are used to provide sample configuration. The reason behind is to provide an example if the repository wants to be tested locally.
 
 - **Directory Structure**:
   - **`build` Directory**: Contains all Dockerfiles to run the application.
@@ -13,6 +11,22 @@ This project serves as an academic exercise to explore and experiment with vario
 
 - **Docker Configuration**: The Docker configuration files are pushed to the repository to avoid loss of deployment details. This ensures that all deployment-related information is temporarily stored in the repository.
 
-- **Missing Work**:
-  - `Resolve the TODOs in the code.`
-  - `Define the authentication to taskManager and consumers`
+# Work In Progress
+
+- **Enhance user accounts and transactions**:  
+  Expanding the functionality to cover more aspects of user accounts and their transactions.
+
+- **Investigate JOINs in the database**:  
+  Determine how to incorporate JOINs in the bounded contexts and implement a solution where `GET /users` returns both user details and associated accounts, potentially using read models.
+
+- **Jenkins, CI/CD, and Kubernetes**:  
+  Currently working on integrating Jenkins for continuous integration and deployment (CI/CD) and setting up Kubernetes for container orchestration.
+
+- **Request Authentication Management**:  
+  Developing a factory to handle different authentication methods, including Basic Authentication and Bearer Token.
+
+- **Extend persistence and bus functionalities**:  
+  Expanding the persistence layer and bus functionality to support other databases and messaging systems like MySQL, RabbitMQ, MongoDB, Redis, etc. Some of these systems may require the application of the RPC pattern.
+
+- **Secrets Management**:  
+  Implementing a solution to securely store credentials, transitioning from current storage in `.json` files to tools like Vault or AWS Secrets Manager.
