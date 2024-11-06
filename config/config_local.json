@@ -1,0 +1,33 @@
+{
+  "server": {
+    "port": "8081",
+    "host": "localhost"
+  },
+  "commandBus": {
+    "driver": "go"
+  },
+  "queryBus": {
+    "driver": "go"
+  },
+  "database": {
+    "driver": "postgres",
+    "data": {
+      "host": "localhost",
+      "port": "5432",
+      "userName": "postgres",
+      "password": "postgres",
+      "database": "transaction_service"
+    }
+  },
+  "errorDatabase": {
+    "driver": "dynamoDb",
+    "data": {
+      "host": "localhost",
+      "region": "eu-south-2",
+      "protocol": "http",
+      "port": "8000",
+      "accessKey": "accessKey",
+      "keyId": "keyId"
+    }
+  }
+}

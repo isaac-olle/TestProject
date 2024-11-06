@@ -1,0 +1,42 @@
+services:
+  service:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    depends_on:
+      - errorRepository
+      - dataRepository
+    ports:
+      - "8081:8080"
+    networks:
+      - project_network
+  errorRepository:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    environment:
+      ##- AWS_REGION=us-west-2
+      - DYNAMODB_SHARED_DB=true
+      - DYNAMODB_IN_MEMORY=true
+      - JAVA_TOOL_OPTIONS=-Xmx1G -Xms512M
+      - AWS_SECRET_ACCESS_KEY=accessKey
+      - AWS_ACCESS_KEY_ID=keyId
+    networks:
+      - project_network
+  dataRepository:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
+    networks:
+      - project_network
+networks:
+  project_network:
+    driver: bridge

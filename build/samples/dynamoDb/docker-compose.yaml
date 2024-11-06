@@ -1,0 +1,13 @@
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    environment:
+      ##- AWS_REGION=us-west-2
+      - DYNAMODB_SHARED_DB=true
+      - DYNAMODB_IN_MEMORY=true
+      - JAVA_TOOL_OPTIONS=-Xmx1G -Xms512M
+      - AWS_SECRET_ACCESS_KEY=accessKey
+      - AWS_ACCESS_KEY_ID=keyId
