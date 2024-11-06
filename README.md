@@ -30,3 +30,6 @@ This project serves as an academic exercise to explore and experiment with vario
 
 - **Secrets Management**:  
   Implementing a solution to securely store credentials, transitioning from current storage in `.json` files to tools like Vault or AWS Secrets Manager.
+
+  - **Testing**:
+    Work in testing. Narrowly related with Jenkins and K8s.
