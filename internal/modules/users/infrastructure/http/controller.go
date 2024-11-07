@@ -3,11 +3,13 @@ package http
 import (
 	"TestProject/internal/modules/users/application/create"
 	"TestProject/internal/modules/users/application/get"
+	"TestProject/internal/modules/users/application/update"
 	"TestProject/internal/server"
 	"TestProject/internal/shared/bus/domain/command"
 	"TestProject/internal/shared/bus/domain/query"
 	"TestProject/internal/shared/uuid/domain"
 	"TestProject/internal/shared/uuid/infrastructure"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -33,7 +35,7 @@ func (this *UsersController) GetRoutes() []*server.GroupRoutes {
 	return []*server.GroupRoutes{
 		{
 			Group:       "/users",
-			Middlewares: []gin.HandlerFunc{server.ContextMiddleware, server.ErrorHandlerMiddleware},
+			Middlewares: []gin.HandlerFunc{server.ErrorHandlerMiddleware},
 			Routes: []*gin.RouteInfo{
 				{
 					Method:      "POST",
@@ -62,7 +64,7 @@ func (this *UsersController) GetRoutes() []*server.GroupRoutes {
 		},
 		{
 			Group:       "/users/async",
-			Middlewares: []gin.HandlerFunc{server.ContextMiddleware, server.ErrorHandlerMiddleware},
+			Middlewares: []gin.HandlerFunc{server.ErrorHandlerMiddleware},
 			Routes: []*gin.RouteInfo{
 				{
 					Method:      "POST",
@@ -124,6 +126,23 @@ func (this *UsersController) GetUser(c *gin.Context) {
 }
 
 func (this *UsersController) UpdateUser(c *gin.Context) {
+	var updateUserCommand *update.UpdateUserCommand
+	if err := c.ShouldBindJSON(&updateUserCommand); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "request body does not fit with the expected. Gin Error:" + err.Error()})
+		return
+	}
+	if updateUserCommand.AbstractCommand == nil {
+		id := c.Param(identifier)
+		if id == "" {
+			c.Error(errors.New("id is required"))
+		}
+		updateUserCommand.AbstractCommand = command.NewAbstractCommand(id)
+	}
+	err := this.commandBus.Dispatch(updateUserCommand)
+	if err != nil {
+		c.Error(err)
+		return
+	}
 	return
 }
 
@@ -155,6 +174,19 @@ func (this *UsersController) GetUserAsync(c *gin.Context) {
 }
 
 func (this *UsersController) UpdateUserAsync(c *gin.Context) {
+	var updateUserCommand *update.UpdateUserCommand
+	if err := c.ShouldBindJSON(&updateUserCommand); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "request body does not fit with the expected. Gin Error:" + err.Error()})
+		return
+	}
+	if updateUserCommand.AbstractCommand == nil {
+		id := c.Param(identifier)
+		if id == "" {
+			c.Error(errors.New("id is required"))
+		}
+		updateUserCommand.AbstractCommand = command.NewAbstractCommand(id)
+	}
+	this.commandBus.Publish(updateUserCommand)
 	return
 }
 

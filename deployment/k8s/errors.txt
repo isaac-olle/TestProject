@@ -1,0 +1,10 @@
+Pot ser que falli, per falta de permisos tant docker com kubectl a l'hora de fer un pull. ErrImagePull o ImagePullBackoff
+
+1. Per solucionar-ho hem de crear un token (PAT) al docker hub.
+2. Llavors executar (aquest esta en Powershell): kubectl create secret docker-registry my-dockerhub-secret `
+                       --docker-server=https://index.docker.io/v1/ `
+                       --docker-username=<username> `
+                       --docker-password=<PAT> `
+                       --docker-email=<email>
+   El docker login no va perque els pods i containers no poden accedir al wincred
+

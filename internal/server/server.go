@@ -22,6 +22,7 @@ func (this *Server) AddController(controller IController) {
 func (this *Server) Run(config *config.BasicConfig) error {
 	for _, controller := range this.controllers {
 		this.RegisterEndpoints(controller)
+		this.RegisterDefaultEndpoints()
 	}
 	return this.Engine.Run(fmt.Sprintf(":%s", config.Port))
 }
@@ -36,4 +37,15 @@ func (this *Server) RegisterEndpoints(controller IController) {
 			group.Handle(v2.Method, v2.Path, v2.HandlerFunc)
 		}
 	}
+}
+
+func (this *Server) RegisterDefaultEndpoints() {
+	liveFunc := func(c *gin.Context) {
+		c.JSON(200, gin.H{})
+	}
+	this.GET("/live", liveFunc)
+	readyFunc := func(c *gin.Context) {
+		c.JSON(200, gin.H{})
+	}
+	this.GET("/ready", readyFunc)
 }

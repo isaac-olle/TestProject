@@ -19,7 +19,7 @@ func NewUserInitializer(persistanceConfig *config.DeviceConfig, commandBus comma
 	if err != nil {
 		return nil, err
 	}
-	application.NewUserHandler(commandBus, queryBus, repo)
+	application.NewUserService(commandBus, queryBus, repo)
 	controller := http.NewUsersController(commandBus, queryBus)
 	return &UserInitializer{
 		controller: controller,

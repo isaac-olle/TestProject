@@ -1,4 +1,4 @@
-package create
+package update
 
 import (
 	"TestProject/internal/modules/users/domain/dtos"
@@ -8,10 +8,10 @@ import (
 
 const (
 	birthdateTimeFormat   = "2006-01-02"
-	CreateUserCommandName = "createUser"
+	UpdateUserCommandName = "user_created"
 )
 
-type CreateUserCommand struct {
+type UpdateUserCommand struct {
 	Name      string `json:"name" binding:"required"`
 	Surname   string `json:"surname,omitempty"`
 	BirthDate string `json:"birthDate"`
@@ -20,7 +20,7 @@ type CreateUserCommand struct {
 	*command.AbstractCommand
 }
 
-func (req *CreateUserCommand) ToDomain() (*entities.User, error) {
+func (req *UpdateUserCommand) ToDomain() (*entities.User, error) {
 	return entities.NewUserFromUnvaluedObjects(dtos.UserParams{
 		Id:                  req.ID,
 		Name:                req.Name,
@@ -33,6 +33,6 @@ func (req *CreateUserCommand) ToDomain() (*entities.User, error) {
 	})
 }
 
-func (this *CreateUserCommand) CommandType() string {
-	return CreateUserCommandName
+func (this *UpdateUserCommand) CommandType() string {
+	return UpdateUserCommandName
 }

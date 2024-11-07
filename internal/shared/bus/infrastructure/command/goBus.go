@@ -34,6 +34,7 @@ func (this *GoCommandBus) Dispatch(command command.ICommand) error {
 	if handlers, found := this.handlers[command.CommandType()]; found {
 		for _, fnc := range handlers {
 			return fnc(command)
+
 		}
 	} else {
 		return fmt.Errorf("No handler found for command type: %s", command.CommandType())

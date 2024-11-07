@@ -5,7 +5,6 @@ import (
 	"TestProject/internal/shared/bus/domain/command"
 	"TestProject/internal/shared/bus/domain/query"
 	command2 "TestProject/internal/shared/bus/infrastructure/command"
-	error2 "TestProject/internal/shared/bus/infrastructure/error"
 	query2 "TestProject/internal/shared/bus/infrastructure/query"
 )
 
@@ -15,11 +14,19 @@ type BusProvider struct {
 }
 
 func NewBusProvider(errorRepoConfig *config.DeviceConfig, commandBusConfig *config.DeviceConfig, queryBusConfig *config.DeviceConfig) (*BusProvider, error) {
-	errorRepository, err := error2.NewErrorRepository(errorRepoConfig)
+	/*errorRepository, err := error2.NewErrorRepository(errorRepoConfig)
+	if err != nil {
+		return nil, err
+	}*/
+	commandBus, err := command2.GetCommandBus(commandBusConfig, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &BusProvider{command2.NewGoCommandBus(errorRepository), query2.NewGoQueryBus(errorRepository)}, nil
+	queryBus, err := query2.GetQueryBus(queryBusConfig, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &BusProvider{commandBus, queryBus}, nil
 }
 
 func (this *BusProvider) CommandBus() command.ICommandBus {

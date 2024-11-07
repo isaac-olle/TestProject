@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"TestProject/internal/modules/shared/domain/users"
 	"TestProject/internal/modules/users/domain/entities"
 	entities2 "TestProject/internal/modules/users/infrastructure/persistance/entities"
 	mysql "TestProject/internal/shared/persistance/infrastructure"
@@ -20,7 +21,7 @@ func (this *UserMySqlRepository) Create(user *entities.User) error {
 	return mysql.SqlInsertOrUpdate(this.db, query, user.Name().ToString(), user.Surname().ToString(), user.Birthdate().Value(), user.Email().ToString())
 }
 
-func (this *UserMySqlRepository) GetById(id string) (*entities.User, error) {
+func (this *UserMySqlRepository) GetById(id *users.UserId) (*entities.User, error) {
 	const query = "SELECT * FROM users WHERE id = ?"
 	return mysql.SqlGetById[*entities.User, *entities2.UserSQLDatabaseTable](this.db, entities2.NewEmptyUserMySQLDatabaseTable(), query, id)
 }
@@ -30,7 +31,7 @@ func (this *UserMySqlRepository) GetAll() ([]*entities.User, error) {
 	return mysql.SqlGetAll[*entities.User, *entities2.UserSQLDatabaseTable](this.db, entities2.NewEmptyUserMySQLDatabaseTable(), query)
 }
 
-func (this *UserMySqlRepository) Update(user *entities.User, id string) error {
+func (this *UserMySqlRepository) Update(user *entities.User, id *users.UserId) error {
 	const query = "UPDATE users SET name = ?, surname = ?, birthdate = ?, email = ? WHERE id = ? RETURNING *"
 	return mysql.SqlInsertOrUpdate(this.db, query, user.Name().ToString(), user.Surname().ToString(), user.Birthdate().Value(), user.Email().ToString(), id)
 }

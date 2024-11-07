@@ -12,11 +12,11 @@ import (
 
 func SqlInsertOrUpdate(db *sql.DB, query string, params ...any) error {
 	if !(strings.HasPrefix(query, "UPDATE") || strings.HasPrefix(query, "INSERT")) {
-		return errors.New("query must start with 'update' or 'insert'")
+		return httperror.NewInternalServerError("invalid query")
 	}
 	_, err := db.Exec(query, params...)
 	if err != nil {
-		return err
+		return httperror.NewInternalServerError(fmt.Sprintf("error while sending the database query. Error: %s", err.Error()))
 	}
 	return nil
 }

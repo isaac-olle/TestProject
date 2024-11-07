@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"TestProject/internal/modules/shared/domain/users"
 	"TestProject/internal/modules/users/domain/entities"
 	entities2 "TestProject/internal/modules/users/infrastructure/persistance/entities"
 	postgres "TestProject/internal/shared/persistance/infrastructure"
@@ -20,9 +21,9 @@ func (this *UserPostgresRepository) Create(user *entities.User) error {
 	return postgres.SqlInsertOrUpdate(this.db, query, user.Id().ToString(), user.Name().ToString(), user.Surname().ToString(), user.Birthdate().Value(), user.Email().ToString())
 }
 
-func (this *UserPostgresRepository) GetById(id string) (*entities.User, error) {
+func (this *UserPostgresRepository) GetById(id *users.UserId) (*entities.User, error) {
 	const query = "SELECT * FROM users WHERE id = $1"
-	return postgres.SqlGetById[*entities.User, *entities2.UserSQLDatabaseTable](this.db, entities2.NewEmptyUserMySQLDatabaseTable(), query, id)
+	return postgres.SqlGetById[*entities.User, *entities2.UserSQLDatabaseTable](this.db, entities2.NewEmptyUserMySQLDatabaseTable(), query, id.ToString())
 }
 
 func (this *UserPostgresRepository) GetAll() ([]*entities.User, error) {
@@ -30,9 +31,9 @@ func (this *UserPostgresRepository) GetAll() ([]*entities.User, error) {
 	return postgres.SqlGetAll[*entities.User, *entities2.UserSQLDatabaseTable](this.db, entities2.NewEmptyUserMySQLDatabaseTable(), query)
 }
 
-func (this *UserPostgresRepository) Update(user *entities.User, id string) error {
+func (this *UserPostgresRepository) Update(user *entities.User, id *users.UserId) error {
 	const query = "UPDATE users SET name = $1, surname = $2, birthdate = $3, email = $4 WHERE id = $5 RETURNING *"
-	return postgres.SqlInsertOrUpdate(this.db, query, user.Name().ToString(), user.Surname().ToString(), user.Birthdate().Value(), user.Email().ToString(), id)
+	return postgres.SqlInsertOrUpdate(this.db, query, user.Name().ToString(), user.Surname().ToString(), user.Birthdate().Value(), user.Email().ToString(), id.ToString())
 }
 
 func (this *UserPostgresRepository) Delete(id string) error {
